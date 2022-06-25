@@ -42,16 +42,32 @@ function Article(props) {
   </article>
 }
 
+function Create(props) {
+  return <article>
+    <h2>Create</h2>
+    <form onSubmit={event=>{
+      event.preventDefault(); //reload 막기위해
+      const title = event.target.title.value; //event.target는 해당 이벤트가 발생한 지점을 가리키므로 해당 태그를 가리키게 된다. !!
+      const body = event.target.body.value;
+      props.onCreate(title,body);
+    }}>
+      <p><input type='text' name='title' placeholder='title'/></p>
+      <textarea name='body' placeholder='body'></textarea>
+      <p><input type='submit' value='Create'></input></p>
+    </form>
+  </article>
+}
+
 function App() {
   // const _mode = useState('WELCOME');  //useState인자는 초기값을 받고 배열을 리턴한다. 1번째 배열은 'WELCOME' 2번째 배열은 함수를 리턴한다.
   // const mode = _mode[0]; //상태값은 0번째 
   // const setMode = _mode[1]; //상태값을 바꿀수 있는 함수인 1번째 인덱스의 함수를 저장한다.
   const [mode, setMode] = useState('WELCOME');  //위의 세줄 코드랑 같음
   const [_id, setId] = useState(null);
-
-  const topics = [{id:1, title:"html", body:"html is ..." }
+  const [nextId, setNextId] = useState(4); //현재  topoics에 id가 3까지있으므로 4를 주는것임 다른 의미는 없음
+  const [topics, setTopics] = useState([{id:1, title:"html", body:"html is ..." }
                 , {id:2, title:"css", body:"css is ..." }
-                , {id:3, title:"javscript", body:"javscript is ..." }];
+                , {id:3, title:"javscript", body:"javscript is ..." }]);
   let content = null;
   let _title = null;
   let _body = null;
@@ -63,6 +79,19 @@ function App() {
     _body = topics.find(x => x.id === Number(_id)).body;
 
     content = <Article title = {_title} body={_body}></Article>
+  }else if(mode === 'CREATE'){
+    content = <Create onCreate={(_title, _body)=>{
+      console.log(topics);
+      const newTopic = {id:nextId, title:_title, body:_body}
+      const newTopics = [...topics]; //topics 복제
+      newTopics.push(newTopic);
+      setTopics(newTopics);
+      console.log(topics);
+      setMode('READ');
+      setId(nextId);
+      setNextId(nextId+1);
+      
+    }}></Create>
   }
 
   return (
@@ -81,6 +110,15 @@ function App() {
         setId(id);
       }}></Nav>
       {content}
+      <a href='/create' onClick={event=>{
+        event.preventDefault();
+        setMode('CREATE');
+      }}>Create</a>
+      <a href='/update' onClick={event=>{
+        event.preventDefault();
+        setMode('UPDATE');
+      }}>Update</a>
+      
     </div>
     
   );

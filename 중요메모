@@ -8,3 +8,28 @@ prop
 컴포넌트에 전달된다. 컴포넌트 외부로 전달된다.
 State
 컴포넌트 내부에서만 관리된다.
+
+
+javascript 데이터타입
+primitive type 
+- 변수에 값을 할당할때 독립적으로 메모리를 사용한다.
+- 변수에 값을 다른 변수로 대입하더라도 서로에게 영향이 없다.
+(number, string, boolean, undefined, symbol, null ...)
+
+Object type
+- 식별자로 참조! 할 수 있는 메모리상의 값
+(object, array ...)
+
+
+===================매우중요===================
+state를 만들때
+state 데이터가 primitive type 이면
+기존에 하던 방식으로 데이터자체를 변경해도 된다. 
+ex.setMode('Create');
+
+state 데이터가 Object type 이면
+데이터를 복제하여 대입해야한다.
+newValue = {...value};
+newValue를 변경
+setValue(newValue);
+===================매우중요===================
