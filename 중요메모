@@ -3,6 +3,7 @@ output : return(UI)
 
 State 상태값
 State가 변경되면 해당 컴포넌트가 리렌더링 된다.
+== State를 사용하지 않으면 상태값은 변경할수 있지만 (a = '1') 해당 컴포넌트(App)는 리렌더링 되지않는다. 따라서 화면에 변화가 없다.!!!!!!!
 
 prop
 컴포넌트에 전달된다. 컴포넌트 외부로 전달된다.
@@ -21,7 +22,7 @@ Object type
 (object, array ...)
 
 
-===================매우중요===================
+===================매우중요!!!===================
 state를 만들때
 state 데이터가 primitive type 이면
 기존에 하던 방식으로 데이터자체를 변경해도 된다. 
@@ -33,3 +34,22 @@ newValue = {...value};
 newValue를 변경
 setValue(newValue);
 ===================매우중요===================
+
+===================팁!!!===================
+value 속성 defaultValue 속성
+값이 변경되지 않는, 읽기전용인 값은 value로 정의하기
+값이 변경되고, 기본값이 있는 요소는 defaultValue로 정의하기
+
+따라서 props 로 데이터를 전달할때
+<textarea name='body' placeholder='body' value={props.body}></textarea>
+이런식으로 되어있다면 props.body 값은 변경될수 없기 때문에 입력이 되지않는다
+<textarea name='body' placeholder='body' defaultValue={props.body}></textarea>
+따라서 이런식으로 코딩하면 입력이 가능해진다. 기본값을 저렇게 설정해둔다는 의미!
+
+하지만 저 경우는 state를 생성하여 진행한다. 
+App.js update 부분 참고
+===================팁!!!===================
+
+===================onChange 이벤트===================
+onChange 는 보통 커서가 입력박스 밖에 빠져나갈때 동작하지만
+React에서는 값이 변경되는 순간순간 마다 동작함
